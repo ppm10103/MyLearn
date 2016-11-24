@@ -32,12 +32,10 @@ public class HeartBeatRespHandler extends SimpleChannelInboundHandler {
         if (message.getHeader() != null
                 && message.getHeader().getType() == MessageType.HEARTBEAT_REQ
                 .value()) {
-            System.out.println("Receive client heart beat message : ---> "
-                    + message);
+            System.out.println("Receive client heart beat message");
             NettyMessage heartBeat = buildHeatBeat();
             System.out
-                    .println("Send heart beat response message to client : ---> "
-                            + heartBeat);
+                    .println("Send heart beat response message to client");
             ctx.writeAndFlush(heartBeat);
         } else
             ctx.fireChannelRead(msg);

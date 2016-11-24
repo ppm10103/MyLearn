@@ -37,13 +37,14 @@ public class HeartBeatReqHandler extends SimpleChannelInboundHandler {
         if (message.getHeader() != null
                 && message.getHeader().getType() == MessageType.LOGIN_RESP
                 .value()) {
+            //scheduleAtFixedRate不考虑上一次是否执行成功,schedule考虑
             heartBeat = ctx.executor().scheduleAtFixedRate(
                     new HeartBeatTask(ctx), 0, 5000,
                     TimeUnit.MILLISECONDS);
         } else if (message.getHeader() != null
                 && message.getHeader().getType() == MessageType.HEARTBEAT_RESP
                 .value()) {
-            System.out.println("Client receive heart beat");
+            System.out.println("Client receive heart beat,ts:" + System.currentTimeMillis());
         } else
             ctx.fireChannelRead(msg);
     }
