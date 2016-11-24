@@ -63,12 +63,15 @@ public class Change {
     public static void testByte() {
         try {
             ByteBuf buf = Unpooled.buffer();
-            byte b = (byte) 0;
-            System.out.println(b);
+
+            byte b = (byte) 255;
+            System.out.println(Integer.toBinaryString(-1));
+            System.out.println(Byte.toUnsignedInt(b));
+            System.out.println(Integer.toBinaryString(Byte.toUnsignedInt(b)));
             System.out.println("--------------");
             MarshallingEncoder.encode(b, buf);
-            byte decodeMsg = (byte)MarshallingDecoder.decode(buf);
-            System.out.println(decodeMsg);
+            byte decodeMsg = (byte) ((int) MarshallingDecoder.decode(buf) & 0xFF);
+            System.out.println(Byte.toString(decodeMsg));
         } catch (Exception e) {
             e.printStackTrace();
         }

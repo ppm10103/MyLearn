@@ -43,9 +43,7 @@ public class HeartBeatReqHandler extends SimpleChannelInboundHandler {
         } else if (message.getHeader() != null
                 && message.getHeader().getType() == MessageType.HEARTBEAT_RESP
                 .value()) {
-            System.out
-                    .println("Client receive server heart beat message : ---> "
-                            + message);
+            System.out.println("Client receive heart beat");
         } else
             ctx.fireChannelRead(msg);
     }
@@ -60,9 +58,7 @@ public class HeartBeatReqHandler extends SimpleChannelInboundHandler {
         @Override
         public void run() {
             NettyMessage heatBeat = buildHeatBeat();
-            System.out
-                    .println("Client send heart beat messsage to server : ---> "
-                            + heatBeat);
+            System.out.println("Client send heart beat");
             ctx.writeAndFlush(heatBeat);
         }
 

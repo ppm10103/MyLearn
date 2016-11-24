@@ -44,7 +44,7 @@ public class LoginAuthRespHandler extends SimpleChannelInboundHandler {
     public void channelRead0(ChannelHandlerContext ctx, Object msg)
             throws Exception {
         NettyMessage message = (NettyMessage) msg;
-        System.out.println("Server AuthHander receive msg : " + message);
+        System.out.println("Server AuthHander receive");
         // 如果是握手请求消息，处理，其它消息透传
         if (message.getHeader() != null
                 && message.getHeader().getType() == MessageType.LOGIN_REQ
@@ -67,10 +67,11 @@ public class LoginAuthRespHandler extends SimpleChannelInboundHandler {
                 }
                 loginResp = isOK ? buildResponse((byte) 0)
                         : buildResponse((byte) -1);
-                if (isOK)
+                if (isOK){
                     nodeCheck.put(nodeIndex, true);
+                }
             }
-            System.out.println("Server AuthHander send msg : " + loginResp);
+            System.out.println("Server AuthHander send");
             ctx.writeAndFlush(loginResp);
         } else {
             ctx.fireChannelRead(msg);

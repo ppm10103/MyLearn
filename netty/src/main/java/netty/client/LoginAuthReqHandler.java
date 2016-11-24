@@ -35,7 +35,7 @@ public class LoginAuthReqHandler extends SimpleChannelInboundHandler {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         NettyMessage message = buildLoginReq();
-        System.out.println("Client AuthHander send msg : " + message);
+        System.out.println("Client AuthHander send");
         ctx.writeAndFlush(message);
     }
 
@@ -49,17 +49,18 @@ public class LoginAuthReqHandler extends SimpleChannelInboundHandler {
     public void channelRead0(ChannelHandlerContext ctx, Object msg)
             throws Exception {
         NettyMessage message = (NettyMessage) msg;
-        System.out.println("Client AuthHander receive msg : " + message);
+        System.out.println("Client AuthHander receive");
         // 如果是握手应答消息，需要判断是否认证成功
         if (message.getHeader() != null
                 && message.getHeader().getType() == MessageType.LOGIN_RESP
                 .value()) {
             Object loginResult = message.getBody();
-            if (loginResult.toString().equals("0")) {
+            if (loginResult.toString().equals("-1")) {
                 // 握手失败，关闭连接
+                System.out.println("Login is fail");
                 ctx.close();
             } else {
-                System.out.println("Login is ok : " + message);
+                System.out.println("Login is ok");
                 ctx.fireChannelRead(msg);
             }
         } else
